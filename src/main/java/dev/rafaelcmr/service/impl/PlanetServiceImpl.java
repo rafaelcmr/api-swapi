@@ -1,5 +1,6 @@
 package dev.rafaelcmr.service.impl;
 
+import dev.rafaelcmr.exception.PlanetNotFoundException;
 import dev.rafaelcmr.models.Planet;
 import dev.rafaelcmr.models.SwapiPlanet;
 import dev.rafaelcmr.models.SwapiResults;
@@ -7,7 +8,6 @@ import dev.rafaelcmr.repository.PlanetRepository;
 import dev.rafaelcmr.service.PlanetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,7 +29,7 @@ public class PlanetServiceImpl implements PlanetService {
     public Planet find(String name) {
         Planet model = this.repository.findByName(name);
         if(model == null) {
-            throw new IllegalArgumentException("Deu ruim ein, nao achei com o nome ." + name);
+            throw new PlanetNotFoundException("Planeta não encontrado.");
         }
 
         return model;
@@ -39,7 +39,7 @@ public class PlanetServiceImpl implements PlanetService {
     public Planet findId(String id) {
         Planet model = this.repository.findById(id).orElseThrow();
         if(model == null) {
-            throw new IllegalArgumentException("Deu ruim ein, nao achei com o ID ." + id);
+            throw new PlanetNotFoundException("Deu ruim ein, nao achei com o ID ." + id);
         }
 
         return model;
@@ -65,7 +65,7 @@ public class PlanetServiceImpl implements PlanetService {
     public void delete(String name) {
         Planet model = this.repository.findByName(name);
         if(model == null) {
-            throw new IllegalArgumentException("Esse planeta nao existe no banco.");
+            throw new PlanetNotFoundException("Esse planeta nao existe no banco.");
         }
         this.repository.delete(model);
     }
@@ -74,7 +74,7 @@ public class PlanetServiceImpl implements PlanetService {
     public void deleteId(String id) {
         Planet model = this.repository.findById(id).orElseThrow();
         if(model == null) {
-            throw new IllegalArgumentException("Esse planeta nao existe no banco.");
+            throw new PlanetNotFoundException("Esse planeta nao existe no banco.");
         }
         this.repository.delete(model);
     }

@@ -1,14 +1,20 @@
 package dev.rafaelcmr.models;
 
+import com.mongodb.lang.NonNull;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import javax.validation.constraints.NotNull;
 
 @Document
 public class Planet {
     @Id
     private String id;
+    @NotNull(message = "Nome não pode ser nulo")
     private String name;
+    @NotNull(message = "Clima não pode ser nulo")
     private String climate;
+    @NotNull(message = "Terreno não pode ser nulo")
     private String terrain;
     private int filmsCount;
 
